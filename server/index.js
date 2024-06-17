@@ -11,6 +11,9 @@ io.on('connection', socket => {
     console.log("Cliente conectado");
 
     socket.on('message', (data) => {
+
+        //Recibe el mensaje y lo envia al cliente
+        socket.broadcast.emit('message', data);
         console.log(data)
     })
 })
