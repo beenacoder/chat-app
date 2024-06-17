@@ -11,7 +11,12 @@ const App = () => {
     e.preventDefault();
 
     //Recibo mi mensaje que envío tmb
-    receiveMessage(message);
+    const newMessage = {
+      data: message,
+      from: 'Yo'
+    }
+    // receiveMessage(message);
+    setChat([...chat, newMessage]);
     socket.emit('message', message);
   }
 
@@ -37,7 +42,9 @@ const App = () => {
       </form>
       <ul>
         {chat.map((chat, i) => (
-          <li key={i}>{chat}</li>
+          <li key={i}>
+            {chat.from} : {chat.data}
+          </li>
         ))}
       </ul>
     </div>
