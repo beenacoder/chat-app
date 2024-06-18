@@ -1,9 +1,16 @@
 import express from "express";
 import http from "http";
-import {Server as SocketServer} from "socket.io";
+import morgan from "morgan";
+import { PORT } from './config.js';
+import { Server as SocketServer } from "socket.io";
+import { dirname, join } from 'path';
+import { fileURLToPath } from "url";
 
 
 const app = express();
+app.use(morgan('dev'));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const server = http.createServer(app);
 const io = new SocketServer(server);
 
@@ -19,8 +26,10 @@ io.on('connection', socket => {
         });
         console.log(data)
     })
-})
+});
 
-server.listen(3000, () => {
-    console.log("Listening on port 3000");
+app.use(express.static(join(__dirname, '../client/dist')))
+
+server.listen(PORT, () => {
+    console.log(`Listening on port: ${PORT}`);
 })
